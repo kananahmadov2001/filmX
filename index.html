@@ -38,35 +38,64 @@
     }
 
     function Header() {
-      return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand ms-3" href="#">A-Movie</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto me-3">
-              <li className="nav-item"><a className="nav-link" href="#">Home</a></li>
-              <li className="nav-item"><a className="nav-link" href="#">About</a></li>
-              <li className="nav-item"><a className="nav-link" href="#">Movie Review</a></li>
-              <li className="nav-item"><a className="nav-link" href="#">Gallery</a></li>
+  return (
+    <nav className="navbar netflix-navbar">
+      <div className="container-fluid">
+        <a className="navbar-brand netflix-logo" href="#">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+            alt="Netflix"
+            className="netflix-logo-img"
+          />
+        </a>
+        <div className="d-flex align-items-center">
+          <div className="dropdown me-3">
+            <button
+              className="btn btn-outline-light dropdown-toggle"
+              type="button"
+              id="languageDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Español
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="languageDropdown">
+              <li>
+                <a className="dropdown-item" href="#">
+                  English
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Español
+                </a>
+              </li>
             </ul>
           </div>
-        </nav>
-      );
-    }
-
-    function HeroSection() {
-      return (
-        <div className="hero-section position-relative text-white">
-          <img
-            src="cover.jpg"
-            alt="Featured Movie"
-            className="img-fluid w-100"
-          />
+          <button className="btn btn-light netflix-signin">Iniciar sesión</button>
         </div>
-      );
-    }
+      </div>
+    </nav>
+  );
+}
+
+
+  function HeroSection() {
+    return (
+      <div
+      className="hero-section"
+      style={{
+        backgroundImage: `url('cover.jpg')`,
+      }}
+      >
+      <div className="hero-text">
+        <h1>Welcome to A-Movie</h1>
+        <p>Discover your next favorite movie</p>
+      </div>
+    </div>
+    );
+  }
+
 
     function SearchMovies() {
       const [movies, setMovies] = React.useState([]);
