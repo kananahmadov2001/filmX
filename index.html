@@ -26,15 +26,41 @@
       <Header />
       <HeroSection />
       <TrendingSection />
+      <TrendingSection
+        title="Trending Now"
+        apiEndpoint={`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`}
+      />
+      <TrendingSection
+        title="Action"
+        apiEndpoint={`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28&sort_by=popularity.desc`}
+      />
+      <TrendingSection
+        title="Comedy"
+        apiEndpoint={`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=35&sort_by=popularity.desc`}
+      />
+      <TrendingSection
+        title="Horror"
+        apiEndpoint={`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=27&sort_by=popularity.desc`}
+      />
+      <TrendingSection
+        title="Romance"
+        apiEndpoint={`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=10749&sort_by=popularity.desc`}
+      />
+      <TrendingSection
+        title="Documentaries"
+        apiEndpoint={`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=99&sort_by=popularity.desc`}
+      />
+      <ReasonsSection />
+      <FAQSection />
       <SearchMovies />
-      <Sidebar />
+      <FooterSection />
       <Footer />
     </div>
   );
 }
 
 
-  function Header() {
+function Header() {
   return (
     <nav className="navbar netflix-navbar">
       <div className="container-fluid">
@@ -69,7 +95,12 @@
               </li>
             </ul>
           </div>
-          <button className="btn btn-light netflix-signin">Sign In</button>
+          <button
+            className="btn btn-light netflix-signin"
+            onClick={() => (window.location.href = 'signin.html')}
+          >
+            Sign In
+          </button>
         </div>
       </div>
     </nav>
@@ -88,11 +119,6 @@ function ProgressTracker({ currentIndex, total }) {
     </div>
   );
 }
-
-
-
-
-
 
 function HeroSection() {
   const [movies, setMovies] = React.useState([]);
@@ -180,35 +206,137 @@ function HeroSection() {
 }
 
 
-
-function TrendingSection() {
-  const [trendingMovies, setTrendingMovies] = React.useState([]);
+function TrendingSection({ title, apiEndpoint }) {
+  const [movies, setMovies] = React.useState([]);
+  const [selectedMovie, setSelectedMovie] = React.useState(null);
 
   React.useEffect(() => {
-    async function fetchTrendingMovies() {
+    async function fetchMovies() {
       try {
-        const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
-          params: { api_key: API_KEY },
-        });
-        setTrendingMovies(response.data.results.slice(0, 10)); // Display top 10 movies
+        const response = await axios.get(apiEndpoint);
+        setMovies(response.data.results.slice(0, 10)); // Limit to 10 movies
       } catch (error) {
-        console.error('Error fetching trending movies:', error);
+        console.error(`Error fetching movies for ${title}:`, error);
       }
     }
-    fetchTrendingMovies();
-  }, []);
+    fetchMovies();
+  }, [apiEndpoint]);
+
+  const handleMovieClick = (movie) => {
+    setSelectedMovie(movie); // Set the clicked movie as selected
+  };
+
+  const handleCloseModal = () => {
+    setSelectedMovie(null); // Close the modal by clearing the selected movie
+  };
 
   return (
     <div className="trending-section">
-      <h2>Trending Now</h2>
+      <h2>{title}</h2>
       <div className="trending-container">
-        {trendingMovies.map((movie) => (
-          <div className="trending-card" key={movie.id}>
+        {movies.map((movie) => (
+          <div
+            className="trending-card"
+            key={movie.id}
+            onClick={() => handleMovieClick(movie)}
+          >
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
+              className="trending-poster"
             />
             <div className="title-overlay">{movie.title}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Render the modal if a movie is selected */}
+      {selectedMovie && (
+        <MovieModal movie={selectedMovie} onClose={handleCloseModal} />
+      )}
+    </div>
+  );
+}
+
+function MovieModal({ movie, onClose }) {
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button className="close-btn" onClick={onClose}>
+          &times;
+        </button>
+        <img
+          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          alt={movie.title}
+          className="modal-image"
+        />
+        <div className="modal-details">
+          <h1>{movie.title}</h1>
+          <p className="movie-meta">
+            {movie.release_date} • {movie.vote_average} Rating • {movie.genre_ids.join(', ')}
+          </p>
+          <p className="movie-description">{movie.overview}</p>
+          <button className="get-started-btn">Get Started</button>
+          <p className="membership-note">Create or restart your membership</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function ReasonsSection() {
+  const reasons = [
+    { title: "Stories tailored to your taste", emoji: "✨" },
+    { title: "Cancel or switch plans anytime", emoji: "🤝" },
+    { title: "A place just for kids", emoji: "❤️" },
+    { title: "For your phone, tablet, laptop and TV", emoji: "💻" },
+  ];
+
+  return (
+    <div className="reasons-section">
+      <h2>More Reasons to Join</h2>
+      <div className="reasons-container">
+        {reasons.map((reason, index) => (
+          <div className="reason-card" key={index}>
+            <p>{reason.title}</p>
+            <span className="reason-emoji">{reason.emoji}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FAQSection() {
+  const faqs = [
+    { question: "What is Netflix?", answer: "Netflix is a streaming service..." },
+    { question: "How much does Netflix cost?", answer: "Plans range from $6.99..." },
+    { question: "Where can I watch?", answer: "You can watch on any device..." },
+    { question: "How do I cancel?", answer: "You can cancel your subscription anytime..." },
+  ];
+
+  const [expandedIndex, setExpandedIndex] = React.useState(null);
+
+  const toggleFAQ = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  return (
+    <div className="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div className="faq-container">
+        {faqs.map((faq, index) => (
+          <div
+            className={`faq-item ${expandedIndex === index ? "expanded" : ""}`}
+            key={index}
+            onClick={() => toggleFAQ(index)}
+          >
+            <div className="faq-question">
+              {faq.question}
+              <span className="faq-icon">{expandedIndex === index ? "-" : "+"}</span>
+            </div>
+            {expandedIndex === index && <div className="faq-answer">{faq.answer}</div>}
           </div>
         ))}
       </div>
@@ -295,21 +423,51 @@ function TrendingSection() {
       );
     }
 
-    function Sidebar() {
-      return (
-        <div className="sidebar">
-          <div className="genres mb-4">
-            <h4>Genres</h4>
-            <ul className="list-unstyled">
-              <li>Action</li>
-              <li>Comedy</li>
-              <li>Horror</li>
-              <li>Romance</li>
-            </ul>
-          </div>
-        </div>
-      );
-    }
+    function FooterSection() {
+  const links = [
+    ["FAQ", "Investor Relations", "Buy Gift Cards", "Cookie Preferences", "Legal Notices"],
+    ["Help Center", "Jobs", "Ways to Watch", "Corporate Information", "Only on Netflix"],
+    ["Account", "Netflix Shop", "Terms of Use", "Contact Us", "Do Not Sell or Share My Personal Information"],
+    ["Media Center", "Redeem Gift Cards", "Privacy", "Speed Test", "Ad Choices"],
+  ];
+
+  return (
+    <footer className="footer-section">
+      <div className="footer-top">
+        <button
+          className="get-started-button"
+          onClick={() => (window.location.href = 'signin.html')}
+        >
+          Get Started
+        </button>
+        <p>Create or restart your membership</p>
+      </div>
+      <p className="footer-question">
+        Questions? Call <a href="tel:1-844-505-2993">1-844-505-2993</a>
+      </p>
+      <div className="footer-links">
+        {links.map((column, index) => (
+          <ul key={index} className="footer-column">
+            {column.map((link, i) => (
+              <li key={i}>
+                <a href="#" className="footer-link">
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+      <div className="footer-language">
+        <button className="language-button">
+          <i className="bi bi-globe"></i> English
+        </button>
+      </div>
+    </footer>
+  );
+}
+
+
 
     function Footer() {
       return (

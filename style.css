@@ -22,8 +22,8 @@ body {
 /* TV Frame */
 .tv-frame {
   position: relative;
-  width: 90%;
-  max-width: 1500px;
+  width: 100%;
+  max-width: 1700px;
   max-height: 700px;
   aspect-ratio: 16 / 9;
   background: #111;
@@ -207,8 +207,7 @@ body {
 }
 
 .trending-section {
-  margin-top: 2rem;
-  padding: 1rem 2rem;
+  padding: 0.5rem 10rem;
   background: transparent;
   color: #fff;
 }
@@ -228,6 +227,7 @@ body {
 
 .trending-container::-webkit-scrollbar {
   height: 8px;
+  display: none;
 }
 
 .trending-container::-webkit-scrollbar-thumb {
@@ -267,4 +267,284 @@ body {
   padding: 0.5rem;
   font-size: 1.1rem;
   font-weight: bold;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: #000;
+  color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  text-align: left;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* Modal Image */
+.modal-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Modal Details */
+.modal-details {
+  margin-top: 1rem;
+}
+
+.modal-details h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.movie-meta {
+  font-size: 1rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.movie-description {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.get-started-btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.get-started-btn:hover {
+  background: #f40612;
+}
+
+.membership-note {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 1rem;
+}
+
+/* Reasons Section */
+.reasons-section {
+  padding: 2rem 10rem;
+  background: #000;
+  color: #fff;
+}
+
+.reasons-section h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.reasons-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.reason-card {
+  background: #222;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  flex: 1 0 22%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.reason-card p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.reason-emoji {
+  font-size: 1.5rem;
+}
+
+/* FAQ Section */
+.faq-section {
+  padding: 2rem 10rem;
+  background: #111;
+  color: #fff;
+}
+
+.faq-section h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  background: #222;
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  background: #333;
+}
+
+.faq-item.expanded {
+  background: #333;
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.faq-answer {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.faq-icon {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Footer Section */
+.footer-section {
+  padding: 2rem 10rem;
+  background: #000;
+  color: #fff;
+  text-align: left;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-question {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #b3b3b3;
+}
+
+.footer-question a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.footer-column {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-link {
+  color: #b3b3b3;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-language {
+  text-align: left;
+}
+
+.language-button {
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.language-button:hover {
+  background: #fff;
+  color: #000;
+}
+
+.language-button i {
+  font-size: 1.2rem;
+}
+
+/* Footer Top Section */
+.footer-top {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.get-started-button {
+  background-color: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 0.5rem;
+}
+
+.get-started-button:hover {
+  background-color: #f40612;
 }
