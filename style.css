@@ -1,11 +1,22 @@
 /* General Styles */
 body {
-  background-color: #000;
+  background: linear-gradient(
+    to bottom,
+    #18202c 0%,   /* Dark blue-gray at the top */
+    #111418 60%,  /* Transitioning to dark gray */
+    #0a0a0a 90%,  /* Almost black near the bottom */
+    #000000 100%  /* Pure black at the very bottom */
+  );
+  background-attachment: fixed; /* Keeps the gradient fixed during scroll */
   margin: 0;
   padding: 0;
   color: #fff;
   font-family: Arial, sans-serif;
 }
+
+
+
+/* ///////////////////////////////////////////////////////////////////////////////////// */
 
 /* Hero Section */
 .hero-section {
@@ -14,8 +25,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #000; /* Ensure full black background */
-  padding: 2rem 0;
+  padding: 0.5rem 0;
   gap: 1rem; /* Add spacing between elements */
 }
 
@@ -26,8 +36,8 @@ body {
   max-width: 1700px;
   max-height: 700px;
   aspect-ratio: 16 / 9;
-  background: #111;
   border-radius: 20px;
+  border: 3px solid #fff; /* Add this for a thicker white border */
   overflow: hidden;
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.8);
   display: flex;
@@ -48,11 +58,11 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
   color: #fff;
   padding: 1.5rem;
   z-index: 2;
   text-align: left;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
 }
 
 .movie-title {
@@ -105,14 +115,15 @@ body {
 .btn-left:hover,
 .btn-right:hover {
   background-color: rgba(255, 255, 255, 0.8);
-  color: #000;
+  color: #716e6e;
 }
 
 /* Netflix Logo */
 .netflix-logo-img {
-  width: 150px;
-  margin: 0 auto;
+  width: 250px;
   display: block;
+  padding-left: 50px;
+  padding-top: 25px;
 }
 
 /* Responsive Adjustments */
@@ -157,10 +168,10 @@ body {
   background-color: #fff;
   transform: scale(1.2);
 }
+
 .bottom-section {
   margin-top: 2rem;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.08); /* Subtle transparent overlay */
   border-radius: 10px;
   text-align: left;
   color: #e6e6e6;
@@ -170,6 +181,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(255, 255, 255, 0.08); /* Subtle transparent overlay */
 }
 
 .bottom-section .details {
@@ -276,7 +288,6 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -361,7 +372,7 @@ body {
 /* Reasons Section */
 .reasons-section {
   padding: 2rem 10rem;
-  background: #000;
+  background: #111;
   color: #fff;
 }
 
@@ -395,6 +406,8 @@ body {
 .reason-emoji {
   font-size: 1.5rem;
 }
+
+/* ///////////////////////////////////////////////////////////////////////////////////// */
 
 /* FAQ Section */
 .faq-section {
@@ -451,13 +464,14 @@ body {
   color: #fff;
 }
 
+/* ///////////////////////////////////////////////////////////////////////////////////// */
+
 /* Footer Section */
 .footer-section {
   padding: 2rem 10rem;
-  background: #000;
+  background: #111;
   color: #fff;
   text-align: left;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .footer-question {
@@ -526,10 +540,13 @@ body {
   font-size: 1.2rem;
 }
 
+/* ///////////////////////////////////////////////////////////////////////////////////// */
+
 /* Footer Top Section */
 .footer-top {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.3rem;
+  margin-top: -10px;
 }
 
 .get-started-button {
@@ -539,7 +556,7 @@ body {
   border-radius: 5px;
   font-size: 1.2rem;
   font-weight: bold;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 20rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-bottom: 0.5rem;
@@ -548,6 +565,8 @@ body {
 .get-started-button:hover {
   background-color: #f40612;
 }
+
+/* ///////////////////////////////////////////////////////////////////////////////////// */
 
 .search-more-movies-btn {
   display: block;
@@ -569,3 +588,84 @@ body {
   background-color: darkred;
   transform: scale(1.05); /* Slight scaling effect */
 }
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* Netflix Navbar */
+.netflix-navbar {
+  padding: 0.5rem 2rem; /* Padding for the navbar */
+  top: 0;
+  z-index: 1000;
+}
+
+/* Netflix Logo */
+.netflix-logo-img {
+  width: 220px; /* Keep logo size consistent */
+  height: auto;
+  margin-right: 2rem; /* Spacing between logo and buttons */
+  margin-top: -20px;
+}
+
+/* Language Dropdown Button */
+#languageDropdown {
+  font-size: 1.2rem; /* Match font size */
+  padding: 0.4rem 1rem; /* Adjust padding for button */
+  border: 1px solid rgba(255, 255, 255, 0.5); /* Light border */
+  border-radius: 50px; /* Rounded corners */
+  background-color: transparent;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* Space between text and icon */
+  transition: all 0.3s ease;
+}
+
+#languageDropdown i {
+  font-size: 1.2rem; /* Adjust icon size */
+}
+
+#languageDropdown:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+  color: #fff;
+}
+
+/* Dropdown Menu Items */
+.dropdown-menu {
+  background-color: #333;
+  border: none;
+}
+
+.dropdown-item {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Sign-In Button */
+.netflix-signin {
+  font-size: 1.2rem; /* Match font size */
+  padding: 0.4rem 1.5rem; /* Adjust padding for consistent button size */
+  border: none; /* Remove border */
+  border-radius: 50px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  color: #000; /* Black text */
+  margin-left: -1rem; /* Spacing between language dropdown and sign-in */
+  transition: all 0.3s ease;
+}
+
+.netflix-signin:hover {
+  background-color: rgba(255, 255, 255, 0.9); /* Subtle hover effect */
+  color: #000;
+}
+
+/* Align Buttons and Logo */
+.d-flex {
+  gap: 1rem; /* Adjust spacing between dropdown and sign-in */
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
