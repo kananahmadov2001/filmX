@@ -50,9 +50,9 @@
         title="Documentaries"
         apiEndpoint={`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=99&sort_by=popularity.desc`}
       />
+      <SearchForMoreMoviesButton />
       <ReasonsSection />
       <FAQSection />
-      <SearchMovies />
       <FooterSection />
       <Footer />
     </div>
@@ -284,6 +284,18 @@ function MovieModal({ movie, onClose }) {
   );
 }
 
+function SearchForMoreMoviesButton() {
+      return (
+        <div className="text-center my-4">
+          <button
+            className="search-more-movies-btn"
+            onClick={() => (window.location.href = 'movies.html')}
+          >
+            Search for More Movies
+          </button>
+        </div>
+      );
+    }
 
 function ReasonsSection() {
   const reasons = [
@@ -343,85 +355,6 @@ function FAQSection() {
     </div>
   );
 }
-
-
-
-    function SearchMovies() {
-      const [movies, setMovies] = React.useState([]);
-      const [query, setQuery] = React.useState('');
-
-      // Fetch default popular movies
-      React.useEffect(() => {
-        fetchMovies();
-      }, []);
-
-      const fetchMovies = async (searchQuery = '') => {
-        try {
-          const endpoint = searchQuery
-            ? `${BASE_URL}/search/movie`
-            : `${BASE_URL}/movie/popular`;
-          const response = await axios.get(endpoint, {
-            params: { api_key: API_KEY, query: searchQuery },
-          });
-          setMovies(response.data.results);
-        } catch (error) {
-          console.error('Error fetching movies:', error);
-        }
-      };
-
-      const handleSearch = () => {
-        fetchMovies(query);
-      };
-
-      return (
-        <div>
-          <div className="search-bar mb-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search for a movie..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button
-              className="btn btn-primary mt-2"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
-          <MovieGrid movies={movies} />
-        </div>
-      );
-    }
-
-    function MovieGrid({ movies }) {
-      if (!movies || movies.length === 0) {
-        return <p>No movies found. Try searching for something else!</p>;
-      }
-
-      return (
-        <div>
-          <h3 className="mb-4">Movies</h3>
-          <div className="row">
-            {movies.map((movie) => (
-              <div className="col-md-3 mb-4" key={movie.id}>
-                <div className="card">
-                  <img
-                    src={movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : 'https://via.placeholder.com/500x750'}
-                    className="card-img-top"
-                    alt={movie.title}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{movie.title}</h5>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
 
     function FooterSection() {
   const links = [

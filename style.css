@@ -548,3 +548,24 @@ body {
 .get-started-button:hover {
   background-color: #f40612;
 }
+
+.search-more-movies-btn {
+  display: block;
+  width: 90%; /* Super wide button */
+  margin: 20px auto; /* Center alignment */
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 15px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-more-movies-btn:hover {
+  background-color: darkred;
+  transform: scale(1.05); /* Slight scaling effect */
+}
