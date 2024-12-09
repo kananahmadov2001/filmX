@@ -51,7 +51,7 @@ Note: This was my final project for my Web Dev. class I took at WashU.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/filmX.git
+   git clone https://github.com/kananahmadov2001/filmX.git
    ```
 2. Navigate to the project folder:
    ```bash
