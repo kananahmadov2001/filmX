@@ -1,6 +1,9 @@
 # filmX 🎥
 
 **Your gateway to exploring movies, genres, and trending films!**
+```
+Note: This was my final project for my Web Dev. class I took at WashU.
+```
 
 ## Table of Contents
 
