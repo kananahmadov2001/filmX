@@ -7,8 +7,7 @@
 1. [Overview](#overview)
 2. [Features](#features)
 3. [Tech Stack](#tech-stack)
-4. [Folder Structure](#folder-structure)
-5. [Installation and Usage](#installation-and-usage)
+4. [Installation and Usage](#installation-and-usage)
 
 ---
 
@@ -35,16 +34,6 @@
 - **API**: The Movie Database (TMDb) API
 - **Styling**: CSS, Bootstrap
 - **Icons**: Bootstrap Icons
-
----
-
-## filmX/
-
-├── index.html # Main homepage
-├── movies.html # Movie search and browsing page
-├── style.css # Styling for the entire application
-├── sign-in-page.jpeg # Placeholder image for custom first movie
-└── README.md # This file
 
 ---
 
