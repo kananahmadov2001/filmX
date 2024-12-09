@@ -28,7 +28,6 @@
     <div>
       <Header />
       <HeroSection />
-      <TrendingSection />
       <TrendingSection
         title="Trending Now"
         apiEndpoint={`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`}
@@ -286,7 +285,11 @@ function HeroSection() {
 function TrendingSection({ title, apiEndpoint }) {
   const [movies, setMovies] = React.useState([]);
   const [selectedMovie, setSelectedMovie] = React.useState(null);
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
+  const [canScrollRight, setCanScrollRight] = React.useState(true);
+  const containerRef = React.useRef(null);
 
+  // Fetch movies from the API
   React.useEffect(() => {
     async function fetchMovies() {
       try {
@@ -299,32 +302,101 @@ function TrendingSection({ title, apiEndpoint }) {
     fetchMovies();
   }, [apiEndpoint]);
 
+  // Handle movie click to open the modal
   const handleMovieClick = (movie) => {
-    setSelectedMovie(movie); // Set the clicked movie as selected
+    setSelectedMovie(movie);
   };
 
+  // Close the modal
   const handleCloseModal = () => {
-    setSelectedMovie(null); // Close the modal by clearing the selected movie
+    setSelectedMovie(null);
   };
+
+  // Scroll the container left or right
+  const scrollContainer = (direction) => {
+    if (!containerRef.current) return;
+
+    const container = containerRef.current;
+    const scrollAmount = container.offsetWidth;
+
+    if (direction === "left") {
+      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
+  // Update button visibility based on scroll position
+  const updateScrollButtons = () => {
+  if (!containerRef.current) return;
+
+  const container = containerRef.current;
+
+  // Check if at the start (leftmost point)
+  const atStart = container.scrollLeft <= 0;
+  setCanScrollLeft(!atStart);
+
+  // Check if at the end (rightmost point)
+  const atEnd =
+    container.scrollLeft >= container.scrollWidth - container.clientWidth - 1;
+  setCanScrollRight(!atEnd);
+
+  // Dynamically add classes for transparency
+  container.classList.toggle("fade-left", !atStart);
+  container.classList.toggle("fade-right", !atEnd);
+};
+
+
+  // Attach scroll event listener
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("scroll", updateScrollButtons);
+      updateScrollButtons(); // Update on mount
+      return () => container.removeEventListener("scroll", updateScrollButtons);
+    }
+  }, []);
 
   return (
     <div className="trending-section">
       <h2>{title}</h2>
-      <div className="trending-container">
-        {movies.map((movie) => (
-          <div
-            className="trending-card"
-            key={movie.id}
-            onClick={() => handleMovieClick(movie)}
+      <div className="trending-container-wrapper">
+        {/* Left Scroll Button */}
+        {canScrollLeft && (
+          <button
+            className="scroll-btn left-btn"
+            onClick={() => scrollContainer("left")}
           >
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-              className="trending-poster"
-            />
-            <div className="title-overlay">{movie.title}</div>
-          </div>
-        ))}
+            <i className="bi bi-chevron-left"></i>
+          </button>
+        )}
+
+        {/* Movie Cards Container */}
+        <div className="trending-container" ref={containerRef}>
+          {movies.map((movie) => (
+            <div
+              className="trending-card"
+              key={movie.id}
+              onClick={() => handleMovieClick(movie)}
+            >
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                className="trending-poster"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Right Scroll Button */}
+        {canScrollRight && (
+          <button
+            className="scroll-btn right-btn"
+            onClick={() => scrollContainer("right")}
+          >
+            <i className="bi bi-chevron-right"></i>
+          </button>
+        )}
       </div>
 
       {/* Render the modal if a movie is selected */}
@@ -336,6 +408,47 @@ function TrendingSection({ title, apiEndpoint }) {
 }
 
 function MovieModal({ movie, onClose }) {
+  // Example mapping of genre IDs to genre names
+  const genreMapping = {
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western",
+  };
+
+  // Format the release date to extract the year
+  const releaseYear = new Date(movie.release_date).getFullYear();
+
+  // Get the genres as an array of names
+  const genres = movie.genre_ids.map((id) => genreMapping[id]).filter(Boolean);
+
+  // Placeholder for content rating and media type
+  const contentRating = movie.adult ? "R" : "PG-13"; // Example logic
+  const mediaType = movie.media_type === "tv" ? "Show" : "Movie"; // Example logic
+
+  // Combine all metadata into a single array
+  const metadata = [
+    releaseYear,
+    contentRating,
+    mediaType,
+    ...genres, // Spread genres into the array
+  ];
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -349,17 +462,14 @@ function MovieModal({ movie, onClose }) {
         />
         <div className="modal-details">
           <h1>{movie.title}</h1>
-          <p className="movie-meta">
-            {movie.release_date} • {movie.vote_average} Rating • {movie.genre_ids.join(', ')}
-          </p>
+          <p className="movie-meta">{metadata.join(" • ")}</p>
           <p className="movie-description">{movie.overview}</p>
-          <button className="get-started-btn">Get Started</button>
-          <p className="membership-note">Create or restart your membership</p>
         </div>
       </div>
     </div>
   );
 }
+
 
 function SearchForMoreMoviesButton() {
       return (

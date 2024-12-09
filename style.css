@@ -89,13 +89,14 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(144, 142, 142, 0.9);
   border: none;
   color: #fff;
   font-size: 2rem;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+  border-radius: 20%;
+  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -563,7 +564,7 @@ body {
 }
 
 .get-started-button:hover {
-  background-color: #f40612;
+  background-color: #8b030a;
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////// */
@@ -817,10 +818,6 @@ body {
   transition: color 0.3s ease; /* Smooth text color transition */
 }
 
-.bottom-section:hover .details .title {
-  color: #ff4c4c; /* Highlight title on hover */
-}
-
 .bottom-section:hover .details .subtitle {
   color: #ffffff; /* Make subtitle text brighter on hover */
 }
@@ -843,3 +840,260 @@ body {
   transform: scale(1.1); /* Slightly enlarge button on hover */
 }
 
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.trending-container-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.trending-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  padding-bottom: 1rem;
+}
+
+.trending-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for cleaner UI */
+}
+
+.trending-card {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.trending-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+.scroll-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.left-btn {
+  left: -20px;
+}
+
+.right-btn {
+  right: -20px;
+}
+
+.scroll-btn:disabled {
+  display: none;
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(144, 142, 142, 0.9); /* Semi-transparent black */
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 20%;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.scroll-btn:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* White hover effect */
+  color: black;
+}
+
+.scroll-btn-left {
+  left: 20px; /* Adjust spacing from the left */
+}
+
+.scroll-btn-right {
+  right: 20px; /* Adjust spacing from the right */
+}
+
+.scroll-btn.hidden {
+  display: none; /* Hide the button when not needed */
+}
+
+.trending-container {
+  display: flex;
+  gap: 1rem; /* Space between the cards */
+  overflow-x: scroll;
+  padding: 10px 10px; /* Add padding to allow space for the buttons */
+  position: relative;
+  scroll-behavior: smooth; /* Smooth scrolling */
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 100%
+  ); /* Fade effect on edges */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 100%
+  ); /* Webkit-specific for Safari */
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.trending-container {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+
+  /* Initially disable mask effect */
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.trending-container.fade-left {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.trending-container.fade-right {
+  mask-image: linear-gradient(to right, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, black 10%, black 90%, transparent);
+}
+
+.trending-container.fade-left.fade-right {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* Smooth fade-in effect */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Content */
+.modal-content {
+  background: rgb(10, 13, 19);
+  color: #fff;
+  border-radius: 10px;
+  overflow: hidden; /* Ensures the image is neatly clipped */
+  max-width: 90%;
+  width: 800px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  transform: scale(0.95);
+  animation: scaleUp 0.3s forwards; /* Smooth scaling effect */
+}
+
+/* Scale-up animation */
+@keyframes scaleUp {
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Modal Image */
+.modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image fills the container */
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: rgba(0, 0, 0, 1); /* Semi-transparent background */
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.8); /* Brighter background on hover */
+  color: #000;
+}
+
+/* Modal Details */
+.modal-details {
+  padding: 1.5rem;
+}
+
+.modal-details h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.movie-meta {
+  font-size: 1rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.movie-description {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
