@@ -8,8 +8,9 @@ Note: This was my final project for my Web Dev. class I took at WashU.
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Features](#features)
-3. [Tech Stack](#tech-stack)
+2. [Project Link](#project-link)
+3. [Features](#features)
+4. [Tech Stack](#tech-stack)
 3. [React Setup](#react-setup)
 5. [Installation and Usage](#installation-and-usage)
 
@@ -18,6 +19,12 @@ Note: This was my final project for my Web Dev. class I took at WashU.
 ## Overview
 
 **filmX** is a user-friendly public platform designed to let users explore a wide variety of movies across genres, trending films, and more. Built with inspiration from Netflix's iconic design, **filmX** provides a seamless browsing experience with interactive features.
+
+---
+
+## Project Link
+
+- **Homepage**: [filmX Homepage](https://wustl-cse204a-fl2024-2.github.io/final-project-kananahmadov2001/)
 
 ---
 
