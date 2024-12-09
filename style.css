@@ -7,26 +7,24 @@ body {
     #0a0a0a 90%,  /* Almost black near the bottom */
     #000000 100%  /* Pure black at the very bottom */
   );
-  background-attachment: fixed; /* Keeps the gradient fixed during scroll */
+  background-attachment: fixed;
   margin: 0;
   padding: 0;
   color: #fff;
   font-family: Arial, sans-serif;
 }
 
-
-
 /* ///////////////////////////////////////////////////////////////////////////////////// */
 
 /* Hero Section */
 .hero-section {
-  height: auto; /* Allow content to define the height */
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0.5rem 0;
-  gap: 1rem; /* Add spacing between elements */
+  gap: 1rem;
 }
 
 /* TV Frame */
@@ -37,7 +35,7 @@ body {
   max-height: 700px;
   aspect-ratio: 16 / 9;
   border-radius: 20px;
-  border: 3px solid #fff; /* Add this for a thicker white border */
+  border: 3px solid #fff;
   overflow: hidden;
   box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.8);
   display: flex;
@@ -62,7 +60,7 @@ body {
   padding: 1.5rem;
   z-index: 2;
   text-align: left;
-  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .movie-title {
@@ -182,7 +180,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08); /* Subtle transparent overlay */
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .bottom-section .details {
@@ -571,8 +569,8 @@ body {
 
 .search-more-movies-btn {
   display: block;
-  width: 90%; /* Super wide button */
-  margin: 20px auto; /* Center alignment */
+  width: 90%;
+  margin: 20px auto;
   background-color: red;
   color: white;
   border: none;
@@ -587,46 +585,38 @@ body {
 
 .search-more-movies-btn:hover {
   background-color: darkred;
-  transform: scale(1.05); /* Slight scaling effect */
+  transform: scale(1.05);
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
 /* Netflix Navbar */
 .netflix-navbar {
-  padding: 0.5rem 2rem; /* Padding for the navbar */
+  padding: 0.5rem 2rem;
   top: 0;
   z-index: 1000;
 }
 
-/* Netflix Logo */
-.netflix-logo-img {
-  width: 220px; /* Keep logo size consistent */
-  height: auto;
-  margin-right: 2rem; /* Spacing between logo and buttons */
-  margin-top: -20px;
-}
-
 /* Language Dropdown Button */
 #languageDropdown {
-  font-size: 1.2rem; /* Match font size */
-  padding: 0.4rem 1rem; /* Adjust padding for button */
-  border: 1px solid rgba(255, 255, 255, 0.5); /* Light border */
-  border-radius: 50px; /* Rounded corners */
+  font-size: 1.2rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
   background-color: transparent;
   color: #fff;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem; /* Space between text and icon */
+  gap: 0.5rem;
   transition: all 0.3s ease;
 }
 
 #languageDropdown i {
-  font-size: 1.2rem; /* Adjust icon size */
+  font-size: 1.2rem;
 }
 
 #languageDropdown:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect */
+  background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
@@ -649,45 +639,41 @@ body {
 
 /* Sign-In Button */
 .netflix-signin {
-  font-size: 1.2rem; /* Match font size */
-  padding: 0.4rem 1.5rem; /* Adjust padding for consistent button size */
-  border: none; /* Remove border */
-  border-radius: 50px; /* Rounded corners */
-  background-color: #fff; /* White background */
-  color: #000; /* Black text */
-  margin-left: -1rem; /* Spacing between language dropdown and sign-in */
+  font-size: 1.2rem;
+  padding: 0.4rem 1.5rem;
+  border: none;
+  border-radius: 50px;
+  background-color: #fff;
+  color: #000;
+  margin-left: -1rem;
   transition: all 0.3s ease;
 }
 
 .netflix-signin:hover {
-  background-color: rgba(255, 255, 255, 0.9); /* Subtle hover effect */
+  background-color: rgba(255, 255, 255, 0.9);
   color: #000;
 }
 
-/* Align Buttons and Logo */
 .d-flex {
-  gap: 1rem; /* Adjust spacing between dropdown and sign-in */
+  gap: 1rem;
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-/* Smooth transition for featured movie */
 .featured-movie {
   width: 100%;
   height: 100%;
   object-fit: cover;
   position: absolute;
   z-index: 1;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth animation for scaling and fading */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* Hide the current movie when transitioning */
 .featured-movie-exit {
   opacity: 0;
   transform: scale(0.9);
 }
 
-/* Show the new movie */
 .featured-movie-enter {
   opacity: 1;
   transform: scale(1);
@@ -723,11 +709,11 @@ body {
   height: 100%;
   background-color: white;
   width: 0%;
-  transition: width 10s linear; /* Smoothly fill the bar over 10 seconds */
+  transition: width 10s linear;
 }
 
 .tracker-bar.progressing {
-  width: 100%; /* Fill the bar when active */
+  width: 100%;
 }
 
 .progress-container {
@@ -780,7 +766,7 @@ body {
 .bottom-section {
   margin-top: 2rem;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   text-align: left;
   color: #e6e6e6;
@@ -790,13 +776,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effects */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
 .bottom-section:hover {
-  transform: scale(1.05); /* Slightly enlarge on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6); /* Enhance shadow on hover */
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
 .bottom-section .details {
@@ -809,17 +795,17 @@ body {
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: #fff;
-  transition: color 0.3s ease; /* Smooth text color transition */
+  transition: color 0.3s ease;
 }
 
 .bottom-section .details .subtitle {
   font-size: 1rem;
   color: #b3b3b3;
-  transition: color 0.3s ease; /* Smooth text color transition */
+  transition: color 0.3s ease;
 }
 
 .bottom-section:hover .details .subtitle {
-  color: #ffffff; /* Make subtitle text brighter on hover */
+  color: #ffffff;
 }
 
 .bottom-section .learn-more-btn {
@@ -837,7 +823,7 @@ body {
 .bottom-section .learn-more-btn:hover {
   background: #fff;
   color: #000;
-  transform: scale(1.1); /* Slightly enlarge button on hover */
+  transform: scale(1.1);
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -857,7 +843,7 @@ body {
 }
 
 .trending-container::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for cleaner UI */
+  display: none;
 }
 
 .trending-card {
@@ -917,7 +903,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(144, 142, 142, 0.9); /* Semi-transparent black */
+  background-color: rgba(144, 142, 142, 0.9);
   border: none;
   color: white;
   font-size: 2rem;
@@ -934,43 +920,43 @@ body {
 }
 
 .scroll-btn:hover {
-  background-color: rgba(255, 255, 255, 0.8); /* White hover effect */
+  background-color: rgba(255, 255, 255, 0.8);
   color: black;
 }
 
 .scroll-btn-left {
-  left: 20px; /* Adjust spacing from the left */
+  left: 20px;
 }
 
 .scroll-btn-right {
-  right: 20px; /* Adjust spacing from the right */
+  right: 20px;
 }
 
 .scroll-btn.hidden {
-  display: none; /* Hide the button when not needed */
+  display: none;
 }
 
 .trending-container {
   display: flex;
-  gap: 1rem; /* Space between the cards */
+  gap: 1rem;
   overflow-x: scroll;
-  padding: 10px 10px; /* Add padding to allow space for the buttons */
+  padding: 10px 10px;
   position: relative;
-  scroll-behavior: smooth; /* Smooth scrolling */
+  scroll-behavior: smooth;
   mask-image: linear-gradient(
     to right,
     rgba(0, 0, 0, 0) 0%,
     rgba(0, 0, 0, 1) 20%,
     rgba(0, 0, 0, 1) 80%,
     rgba(0, 0, 0, 0) 100%
-  ); /* Fade effect on edges */
+  );
   -webkit-mask-image: linear-gradient(
     to right,
     rgba(0, 0, 0, 0) 0%,
     rgba(0, 0, 0, 1) 20%,
     rgba(0, 0, 0, 1) 80%,
     rgba(0, 0, 0, 0) 100%
-  ); /* Webkit-specific for Safari */
+  );
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -981,7 +967,6 @@ body {
   overflow-x: auto;
   scroll-behavior: smooth;
 
-  /* Initially disable mask effect */
   mask-image: none;
   -webkit-mask-image: none;
 }
@@ -1003,62 +988,56 @@ body {
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   opacity: 0;
-  animation: fadeIn 0.5s forwards; /* Smooth fade-in effect */
+  animation: fadeIn 0.5s forwards;
 }
 
-/* Fade-in animation */
 @keyframes fadeIn {
   to {
     opacity: 1;
   }
 }
 
-/* Modal Content */
 .modal-content {
   background: rgb(10, 13, 19);
   color: #fff;
   border-radius: 10px;
-  overflow: hidden; /* Ensures the image is neatly clipped */
+  overflow: hidden; 
   max-width: 90%;
   width: 800px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
   transform: scale(0.95);
-  animation: scaleUp 0.3s forwards; /* Smooth scaling effect */
+  animation: scaleUp 0.3s forwards;
 }
 
-/* Scale-up animation */
 @keyframes scaleUp {
   to {
     transform: scale(1);
   }
 }
 
-/* Modal Image */
 .modal-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure the image fills the container */
+  object-fit: cover;
 }
 
-/* Close Button */
 .close-btn {
   position: absolute;
   top: 10px;
   right: 15px;
-  background: rgba(0, 0, 0, 1); /* Semi-transparent background */
+  background: rgba(0, 0, 0, 1);
   color: rgba(255, 255, 255, 0.8);
   border: none;
   font-size: 2rem;
@@ -1071,11 +1050,10 @@ body {
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.8); /* Brighter background on hover */
+  background: rgba(255, 255, 255, 0.8); 
   color: #000;
 }
 
-/* Modal Details */
 .modal-details {
   padding: 1.5rem;
 }
@@ -1098,7 +1076,6 @@ body {
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-/* Custom styling for the first movie */
 .custom-movie-info {
   display: flex;
   flex-direction: column;
@@ -1128,29 +1105,26 @@ body {
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-/* Import Fancy Google Font for Bold Typography */
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
-/* Movie-Search-Hub Logo */
 .movie-brand-text {
-  font-size: 3rem; /* Large font size */
+  font-size: 3rem;
   font-weight: bold;
-  font-family: 'Anton', sans-serif; /* Bold, impactful font */
-  color: #e50914; /* Netflix red */
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* Subtle shadow for depth */
-  letter-spacing: 3px; /* Slight spacing for bold look */
+  font-family: 'Anton', sans-serif; 
+  color: #e50914; 
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: 3px;
   display: inline-block;
   text-align: center;
   position: relative;
   transition: transform 0.3s ease-in-out;
-  animation: curveText 1s ease-in-out forwards; /* Add animation */
+  animation: curveText 1s ease-in-out forwards; 
   padding-left: 30px;
 }
 
-/* Hover Effect */
 .movie-brand-text:hover {
-  color: #ffffff; /* Text turns white on hover */
-  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8); /* Add a stronger shadow */
+  color: #ffffff;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -1172,7 +1146,7 @@ body {
 
 .movie-grid-card {
   position: relative;
-  flex: 0 0 calc(25% - 1rem); /* Four cards per row */
+  flex: 0 0 calc(25% - 1rem);
   max-width: calc(25% - 1rem);
   border-radius: 10px;
   overflow: hidden;
@@ -1202,6 +1176,4 @@ body {
   font-size: 1rem;
   font-weight: bold;
 }
-
-/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 

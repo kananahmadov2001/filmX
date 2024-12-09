@@ -139,15 +139,14 @@ function HeroSection() {
           params: { api_key: API_KEY },
         });
 
-        // Add the custom first movie
         const customMovie = {
           title: "Unlimited movies, TV shows, and more ",
           backdrop_path: "sign-in-page.jpeg",
           overview: "Explore the world of movies with filmX! Discover top movies and enjoy your next cinematic journey.",
         };
 
-        // Combine custom movie and API-fetched movies
-        setMovies([customMovie, ...response.data.results.slice(0, 4)]); // First custom + top 4 trending
+        // combining custom movie and API-fetched movies
+        setMovies([customMovie, ...response.data.results.slice(0, 4)]);
       } catch (error) {
         console.error("Error fetching trending movies:", error);
       }
@@ -161,7 +160,7 @@ function HeroSection() {
     setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % movies.length);
       setAnimationClass("featured-movie-enter");
-    }, 500); // Match the CSS transition duration
+    }, 500); // matching the CSS transition duration
   };
 
   const handlePrev = () => {
@@ -171,29 +170,28 @@ function HeroSection() {
         prevIndex === 0 ? movies.length - 1 : prevIndex - 1
       );
       setAnimationClass("featured-movie-enter");
-    }, 500); // Match the CSS transition duration
+    }, 500); // matching the CSS transition duration
   };
 
   const toggleProgress = () => {
     if (isProgressing) {
-      clearInterval(intervalRef.current); // Stop the interval
+      clearInterval(intervalRef.current);
     } else {
       intervalRef.current = setInterval(() => {
-        handleNext(); // Move to the next movie automatically
+        handleNext();
       }, 5000); // 5 seconds
     }
-    setIsProgressing(!isProgressing); // Toggle the state
+    setIsProgressing(!isProgressing);
   };
 
   React.useEffect(() => {
-    // Cleanup the interval on component unmount
     return () => clearInterval(intervalRef.current);
   }, []);
 
   const handleBarClick = (index) => {
     if (index !== currentIndex) {
-      clearInterval(intervalRef.current); // Stop automatic progression
-      setIsProgressing(false); // Reset progress state
+      clearInterval(intervalRef.current);
+      setIsProgressing(false);
       setAnimationClass("featured-movie-exit");
       setTimeout(() => {
         setCurrentIndex(index);
@@ -247,7 +245,7 @@ function HeroSection() {
         <img
           src={
             currentIndex === 0
-              ? currentMovie.backdrop_path // Use the local image for the first movie
+              ? currentMovie.backdrop_path // using the local image for the first movie
               : `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`
           }
           alt={currentMovie.title}
@@ -331,12 +329,12 @@ function TrendingSection({ title, apiEndpoint }) {
   const [canScrollRight, setCanScrollRight] = React.useState(true);
   const containerRef = React.useRef(null);
 
-  // Fetch movies from the API
+  // fetching movies from the API
   React.useEffect(() => {
     async function fetchMovies() {
       try {
         const response = await axios.get(apiEndpoint);
-        setMovies(response.data.results.slice(0, 10)); // Limit to 10 movies
+        setMovies(response.data.results.slice(0, 10)); // limit to 10 movies
       } catch (error) {
         console.error(`Error fetching movies for ${title}:`, error);
       }
@@ -344,17 +342,14 @@ function TrendingSection({ title, apiEndpoint }) {
     fetchMovies();
   }, [apiEndpoint]);
 
-  // Handle movie click to open the modal
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
   };
 
-  // Close the modal
   const handleCloseModal = () => {
     setSelectedMovie(null);
   };
 
-  // Scroll the container left or right
   const scrollContainer = (direction) => {
     if (!containerRef.current) return;
 
@@ -368,33 +363,27 @@ function TrendingSection({ title, apiEndpoint }) {
     }
   };
 
-  // Update button visibility based on scroll position
   const updateScrollButtons = () => {
   if (!containerRef.current) return;
 
   const container = containerRef.current;
 
-  // Check if at the start (leftmost point)
   const atStart = container.scrollLeft <= 0;
   setCanScrollLeft(!atStart);
 
-  // Check if at the end (rightmost point)
   const atEnd =
     container.scrollLeft >= container.scrollWidth - container.clientWidth - 1;
   setCanScrollRight(!atEnd);
 
-  // Dynamically add classes for transparency
   container.classList.toggle("fade-left", !atStart);
   container.classList.toggle("fade-right", !atEnd);
 };
 
-
-  // Attach scroll event listener
   React.useEffect(() => {
     const container = containerRef.current;
     if (container) {
       container.addEventListener("scroll", updateScrollButtons);
-      updateScrollButtons(); // Update on mount
+      updateScrollButtons();
       return () => container.removeEventListener("scroll", updateScrollButtons);
     }
   }, []);
@@ -441,7 +430,7 @@ function TrendingSection({ title, apiEndpoint }) {
         )}
       </div>
 
-      {/* Render the modal if a movie is selected */}
+      {/* rendering the modal if a movie is selected */}
       {selectedMovie && (
         <MovieModal movie={selectedMovie} onClose={handleCloseModal} />
       )}
@@ -450,7 +439,7 @@ function TrendingSection({ title, apiEndpoint }) {
 }
 
 function MovieModal({ movie, onClose }) {
-  // Example mapping of genre IDs to genre names
+  // mapping of genre IDs to genre names
   const genreMapping = {
     28: "Action",
     12: "Adventure",
@@ -473,22 +462,22 @@ function MovieModal({ movie, onClose }) {
     37: "Western",
   };
 
-  // Format the release date to extract the year
+  // formatting the release date to extract the year
   const releaseYear = new Date(movie.release_date).getFullYear();
 
-  // Get the genres as an array of names
+  // getting the genres as an array of names
   const genres = movie.genre_ids.map((id) => genreMapping[id]).filter(Boolean);
 
-  // Placeholder for content rating and media type
-  const contentRating = movie.adult ? "R" : "PG-13"; // Example logic
-  const mediaType = movie.media_type === "tv" ? "Show" : "Movie"; // Example logic
+  // placeholder for content rating and media type
+  const contentRating = movie.adult ? "R" : "PG-13";
+  const mediaType = movie.media_type === "tv" ? "Show" : "Movie";
 
-  // Combine all metadata into a single array
+  // combining all metadata into a single array
   const metadata = [
     releaseYear,
     contentRating,
     mediaType,
-    ...genres, // Spread genres into the array
+    ...genres, // spreading genres into the array
   ];
 
   return (

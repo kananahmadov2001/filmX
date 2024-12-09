@@ -96,11 +96,11 @@
     const [selectedMovie, setSelectedMovie] = React.useState(null);
 
     const handleMovieClick = (movie) => {
-      setSelectedMovie(movie); // Set the clicked movie to open in the modal
+      setSelectedMovie(movie);
     };
 
     const handleCloseModal = () => {
-      setSelectedMovie(null); // Close the modal
+      setSelectedMovie(null);
     };
 
     if (!movies || movies.length === 0) {
@@ -118,7 +118,7 @@
             <div
               key={movie.id}
               className="movie-grid-card"
-              onClick={() => handleMovieClick(movie)} // Trigger modal on click
+              onClick={() => handleMovieClick(movie)}
             >
               <img
                 src={
@@ -142,7 +142,6 @@
   }
 
   function MovieModal({ movie, onClose }) {
-  // Example mapping of genre IDs to genre names
   const genreMapping = {
     28: "Action",
     12: "Adventure",
@@ -165,22 +164,18 @@
     37: "Western",
   };
 
-  // Format the release date to extract the year
   const releaseYear = new Date(movie.release_date).getFullYear();
 
-  // Get the genres as an array of names
   const genres = movie.genre_ids.map((id) => genreMapping[id]).filter(Boolean);
 
-  // Placeholder for content rating and media type
-  const contentRating = movie.adult ? "R" : "PG-13"; // Example logic
-  const mediaType = movie.media_type === "tv" ? "Show" : "Movie"; // Example logic
+  const contentRating = movie.adult ? "R" : "PG-13";
+  const mediaType = movie.media_type === "tv" ? "Show" : "Movie";
 
-  // Combine all metadata into a single array
   const metadata = [
     releaseYear,
     contentRating,
     mediaType,
-    ...genres, // Spread genres into the array
+    ...genres,
   ];
 
   return (
