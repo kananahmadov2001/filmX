@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie-Search-Website</title>
+  <title>filmX</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -63,15 +63,15 @@
 function Header() {
   return (
     <nav className="navbar netflix-navbar">
-      <div className="container-fluid">
-        <a className="navbar-brand netflix-logo" href="#">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
-            alt="Netflix"
-            className="netflix-logo-img"
-          />
+      <div className="container-fluid d-flex justify-content-between align-items-center">
+        {/* Brand Section */}
+        <a className="navbar-brand d-flex align-items-center" href="#">
+          <span className="ms-2 movie-brand-text">filmX</span>
         </a>
+
+        {/* Right Section */}
         <div className="d-flex align-items-center">
+          {/* Language Dropdown */}
           <div className="dropdown me-3">
             <button
               className="btn btn-outline-light dropdown-toggle"
@@ -95,9 +95,11 @@ function Header() {
               </li>
             </ul>
           </div>
+
+          {/* Sign-In Button */}
           <button
             className="btn btn-light netflix-signin"
-            onClick={() => (window.location.href = 'signin.html')}
+            onClick={() => (window.location.href = "signin.html")}
           >
             Sign In
           </button>
@@ -130,11 +132,9 @@ function ProgressTracker({ currentIndex, total, onBarClick }) {
 function HeroSection() {
   const [movies, setMovies] = React.useState([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [animationClass, setAnimationClass] = React.useState(
-    "featured-movie-enter"
-  );
+  const [animationClass, setAnimationClass] = React.useState("featured-movie-enter");
   const [isProgressing, setIsProgressing] = React.useState(false); // Tracks if progress is active
-  const intervalRef = React.useRef(null); // Ref to store the interval ID
+  const intervalRef = React.useRef(null);
 
   React.useEffect(() => {
     async function fetchTrendingMovies() {
@@ -142,11 +142,21 @@ function HeroSection() {
         const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
           params: { api_key: API_KEY },
         });
-        setMovies(response.data.results.slice(0, 5)); // Top 5 trending movies
+
+        // Add the custom first movie
+        const customMovie = {
+          title: "Unlimited movies, TV shows, and more ",
+          backdrop_path: "sign-in-page.jpeg",
+          overview: "Explore the world of movies with filmX! Discover top movies and enjoy your next cinematic journey.",
+        };
+
+        // Combine custom movie and API-fetched movies
+        setMovies([customMovie, ...response.data.results.slice(0, 4)]); // First custom + top 4 trending
       } catch (error) {
         console.error("Error fetching trending movies:", error);
       }
     }
+
     fetchTrendingMovies();
   }, []);
 
@@ -202,23 +212,60 @@ function HeroSection() {
 
   const currentMovie = movies[currentIndex];
 
+  let metadata = null;
+  if (currentIndex !== 0) {
+    const genreMapping = {
+      28: "Action",
+      12: "Adventure",
+      16: "Animation",
+      35: "Comedy",
+      80: "Crime",
+      99: "Documentary",
+      18: "Drama",
+      10751: "Family",
+      14: "Fantasy",
+      36: "History",
+      27: "Horror",
+      10402: "Music",
+      9648: "Mystery",
+      10749: "Romance",
+      878: "Science Fiction",
+      10770: "TV Movie",
+      53: "Thriller",
+      10752: "War",
+      37: "Western",
+    };
+
+    const releaseYear = new Date(currentMovie.release_date).getFullYear();
+    const genres = currentMovie.genre_ids.map((id) => genreMapping[id]).filter(Boolean);
+    const contentRating = currentMovie.adult ? "R" : "PG-13";
+    const mediaType = currentMovie.media_type === "tv" ? "Show" : "Movie";
+
+    metadata = [releaseYear, contentRating, mediaType, ...genres].join(" • ");
+  }
+
   return (
     <div className="hero-section">
       {/* TV Frame */}
       <div className="tv-frame">
         <img
-          src={`https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`}
+          src={
+            currentIndex === 0
+              ? currentMovie.backdrop_path // Use the local image for the first movie
+              : `https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`
+          }
           alt={currentMovie.title}
           className={`featured-movie ${animationClass}`}
         />
 
-        <div className="movie-info">
-          <h1 className="movie-title">{currentMovie.title}</h1>
-          <p className="movie-meta">
-            {currentMovie.release_date} • {currentMovie.vote_average} Rating
-          </p>
-          <p className="movie-description">{currentMovie.overview}</p>
+        <div
+        className={`movie-info ${currentIndex === 0 ? "custom-movie-info" : ""}`}
+        >
+        <h1 className="movie-title">{currentMovie.title}</h1>
+        {currentIndex !== 0 && metadata && <p className="movie-meta">{metadata}</p>}
+        <p className="movie-description">{currentMovie.overview}</p>
         </div>
+
 
         <button
           className="btn btn-dark btn-left"
@@ -249,9 +296,7 @@ function HeroSection() {
           {Array.from({ length: movies.length }).map((_, index) => (
             <div
               key={index}
-              className={`tracker-bar-container ${
-                index === currentIndex ? "active" : ""
-              }`}
+              className={`tracker-bar-container ${index === currentIndex ? "active" : ""}`}
               onClick={() => handleBarClick(index)}
             >
               <div
@@ -273,11 +318,12 @@ function HeroSection() {
           </div>
         </div>
         <button
-  className="learn-more-btn"
-  onClick={() => window.open("https://www.netflix.com", "_blank")}
->
-  Learn More
-</button>      </div>
+          className="learn-more-btn"
+          onClick={() => window.open("https://www.netflix.com", "_blank")}
+        >
+          Learn More
+        </button>
+      </div>
     </div>
   );
 }
@@ -470,7 +516,6 @@ function MovieModal({ movie, onClose }) {
   );
 }
 
-
 function SearchForMoreMoviesButton() {
       return (
         <div className="text-center my-4">
@@ -509,10 +554,10 @@ function ReasonsSection() {
 
 function FAQSection() {
   const faqs = [
-    { question: "What is Movie-Search-Hub?", answer: "Movie-Search-Hub is a platform that helps you find movies of your interest, explore trending films, and discover hidden gems, all in one convenient place!" },
-    { question: "How much does Movie-Search-Hub cost?", answer: "Movie-Search-Hub is completely free to use. There are no hidden costs or subscription plans — just start exploring!" },
-    { question: "Where can I use Movie-Search-Hub?", answer: "You can use Movie-Search-Hub on any device with a web browser, including phones, tablets, and desktops!" },
-    { question: "Do I need to sign up or create an account?", answer: "No sign-up is required! Movie-Search-Hub is accessible to everyone without the need for personal accounts or logins!" },
+    { question: "What is filmX?", answer: "filmX is a platform that helps you find movies of your interest, explore trending films, and discover hidden gems, all in one convenient place!" },
+    { question: "How much does filmX cost?", answer: "filmX is completely free to use. There are no hidden costs or subscription plans — just start exploring!" },
+    { question: "Where can I use filmX?", answer: "You can use filmX on any device with a web browser, including phones, tablets, and desktops!" },
+    { question: "Do I need to sign up or create an account?", answer: "No sign-up is required! filmX is accessible to everyone without the need for personal accounts or logins!" },
   ];
 
   const [expandedIndex, setExpandedIndex] = React.useState(null);
@@ -553,15 +598,6 @@ function FooterSection() {
 
   return (
     <footer className="footer-section">
-      <div className="footer-top">
-        <button
-          className="get-started-button"
-          onClick={() => (window.location.href = 'signin.html')}
-        >
-          Get Started
-        </button>
-        <p>Checkout the Sign-In page for future enhancement!</p>
-      </div>
       <p className="footer-question">
         Questions? Email me at <a href="tel:1-844-505-2993">a.kanan@wustl.edu</a>
       </p>
