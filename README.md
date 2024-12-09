@@ -10,7 +10,8 @@ Note: This was my final project for my Web Dev. class I took at WashU.
 1. [Overview](#overview)
 2. [Features](#features)
 3. [Tech Stack](#tech-stack)
-4. [Installation and Usage](#installation-and-usage)
+3. [React Setup](#react-setup)
+5. [Installation and Usage](#installation-and-usage)
 
 ---
 
@@ -37,6 +38,19 @@ Note: This was my final project for my Web Dev. class I took at WashU.
 - **API**: The Movie Database (TMDb) API
 - **Styling**: CSS, Bootstrap
 - **Icons**: Bootstrap Icons
+
+---
+
+## React Setup
+
+The React environment is established via CDN links in `index.html` and `movies.html`:
+
+```html
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+```
 
 ---
 
