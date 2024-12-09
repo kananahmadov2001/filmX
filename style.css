@@ -669,3 +669,177 @@ body {
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* Smooth transition for featured movie */
+.featured-movie {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  z-index: 1;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Smooth animation for scaling and fading */
+}
+
+/* Hide the current movie when transitioning */
+.featured-movie-exit {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* Show the new movie */
+.featured-movie-enter {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+/* Progress Tracker */
+.progress-tracker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tracker-bar-container {
+  width: 60px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.tracker-bar-container.active {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.tracker-bar {
+  height: 100%;
+  background-color: white;
+  width: 0%;
+  transition: width 10s linear; /* Smoothly fill the bar over 10 seconds */
+}
+
+.tracker-bar.progressing {
+  width: 100%; /* Fill the bar when active */
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.progress-tracker {
+  display: flex;
+  align-items: center;
+}
+
+.tracker-bar-container {
+  height: 10px;
+  width: 80px;
+  background-color: #444;
+  margin-right: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.tracker-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #aaa;
+  transition: width 0.1s linear;
+}
+
+.tracker-bar.progressing {
+  width: 100%;
+}
+
+.progress-toggle-btn {
+  font-size: 2rem;
+  padding: 0.1rem 0.8rem;
+  padding-top: 18px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* Bottom Section */
+.bottom-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+  border-radius: 10px;
+  text-align: left;
+  color: #e6e6e6;
+  width: 70%;
+  max-width: 900px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effects */
+  cursor: pointer;
+}
+
+.bottom-section:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6); /* Enhance shadow on hover */
+}
+
+.bottom-section .details {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-section .details .title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  transition: color 0.3s ease; /* Smooth text color transition */
+}
+
+.bottom-section .details .subtitle {
+  font-size: 1rem;
+  color: #b3b3b3;
+  transition: color 0.3s ease; /* Smooth text color transition */
+}
+
+.bottom-section:hover .details .title {
+  color: #ff4c4c; /* Highlight title on hover */
+}
+
+.bottom-section:hover .details .subtitle {
+  color: #ffffff; /* Make subtitle text brighter on hover */
+}
+
+.bottom-section .learn-more-btn {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: none;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bottom-section .learn-more-btn:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.1); /* Slightly enlarge button on hover */
+}
+

@@ -57,11 +57,9 @@
       <ReasonsSection />
       <FAQSection />
       <FooterSection />
-      <Footer />
     </div>
   );
 }
-
 
 function Header() {
   return (
@@ -93,7 +91,7 @@ function Header() {
               </li>
               <li>
                 <a className="dropdown-item" href="#">
-                  Español
+                  Turkish
                 </a>
               </li>
             </ul>
@@ -110,16 +108,22 @@ function Header() {
   );
 }
 
-
-function ProgressTracker({ currentIndex, total }) {
+function ProgressTracker({ currentIndex, total, onBarClick }) {
   return (
-    <div className="progress-tracker">
-      {Array.from({ length: total }).map((_, index) => (
-        <span
-          key={index}
-          className={`tracker-bar ${index === currentIndex ? "active" : ""}`}
-        ></span>
-      ))}
+    <div className="progress-tracker d-flex align-items-center">
+      <div className="bars-container d-flex">
+        {Array.from({ length: total }).map((_, index) => (
+          <div
+            key={index}
+            className={`tracker-bar-container ${index === currentIndex ? "active" : ""}`}
+            onClick={() => onBarClick(index)}
+          >
+            <div
+              className={`tracker-bar ${index === currentIndex ? "progressing" : ""}`}
+            ></div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -127,6 +131,11 @@ function ProgressTracker({ currentIndex, total }) {
 function HeroSection() {
   const [movies, setMovies] = React.useState([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [animationClass, setAnimationClass] = React.useState(
+    "featured-movie-enter"
+  );
+  const [isProgressing, setIsProgressing] = React.useState(false); // Tracks if progress is active
+  const intervalRef = React.useRef(null); // Ref to store the interval ID
 
   React.useEffect(() => {
     async function fetchTrendingMovies() {
@@ -136,20 +145,56 @@ function HeroSection() {
         });
         setMovies(response.data.results.slice(0, 5)); // Top 5 trending movies
       } catch (error) {
-        console.error('Error fetching trending movies:', error);
+        console.error("Error fetching trending movies:", error);
       }
     }
     fetchTrendingMovies();
   }, []);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % movies.length);
+    setAnimationClass("featured-movie-exit");
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % movies.length);
+      setAnimationClass("featured-movie-enter");
+    }, 500); // Match the CSS transition duration
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? movies.length - 1 : prevIndex - 1
-    );
+    setAnimationClass("featured-movie-exit");
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === 0 ? movies.length - 1 : prevIndex - 1
+      );
+      setAnimationClass("featured-movie-enter");
+    }, 500); // Match the CSS transition duration
+  };
+
+  const toggleProgress = () => {
+    if (isProgressing) {
+      clearInterval(intervalRef.current); // Stop the interval
+    } else {
+      intervalRef.current = setInterval(() => {
+        handleNext(); // Move to the next movie automatically
+      }, 5000); // 5 seconds
+    }
+    setIsProgressing(!isProgressing); // Toggle the state
+  };
+
+  React.useEffect(() => {
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  const handleBarClick = (index) => {
+    if (index !== currentIndex) {
+      clearInterval(intervalRef.current); // Stop automatic progression
+      setIsProgressing(false); // Reset progress state
+      setAnimationClass("featured-movie-exit");
+      setTimeout(() => {
+        setCurrentIndex(index);
+        setAnimationClass("featured-movie-enter");
+      }, 500);
+    }
   };
 
   if (movies.length === 0) {
@@ -165,7 +210,7 @@ function HeroSection() {
         <img
           src={`https://image.tmdb.org/t/p/original${currentMovie.backdrop_path}`}
           alt={currentMovie.title}
-          className="featured-movie"
+          className={`featured-movie ${animationClass}`}
         />
 
         <div className="movie-info">
@@ -192,23 +237,51 @@ function HeroSection() {
         </button>
       </div>
 
-      {/* Progress Tracker */}
-      <ProgressTracker currentIndex={currentIndex} total={movies.length} />
-
-    {/* Bottom Section */}
-    <div className="bottom-section">
-      <div className="details">
-        <div className="title">The Netflix you love for just $6.99.</div>
-        <div className="subtitle">
-          Enjoy savings and Netflix with a few ad breaks.
+      {/* Progress Tracker with Control */}
+      <div className="progress-container">
+        <button className="progress-toggle-btn" onClick={toggleProgress}>
+          {isProgressing ? (
+            <i className="bi bi-pause-circle-fill"></i>
+          ) : (
+            <i className="bi bi-play-circle-fill"></i>
+          )}
+        </button>
+        <div className="progress-tracker">
+          {Array.from({ length: movies.length }).map((_, index) => (
+            <div
+              key={index}
+              className={`tracker-bar-container ${
+                index === currentIndex ? "active" : ""
+              }`}
+              onClick={() => handleBarClick(index)}
+            >
+              <div
+                className={`tracker-bar ${
+                  index === currentIndex ? "progressing" : ""
+                }`}
+              ></div>
+            </div>
+          ))}
         </div>
       </div>
-      <button className="learn-more-btn">Learn More</button>
-    </div>
+
+      {/* Bottom Section */}
+      <div className="bottom-section">
+        <div className="details">
+          <div className="title">Discover Your Next Favorite Movie for Free!</div>
+          <div className="subtitle">
+            All in one sleek interface inspired by Netflix's iconic design!
+          </div>
+        </div>
+        <button
+  className="learn-more-btn"
+  onClick={() => window.open("https://www.netflix.com", "_blank")}
+>
+  Learn More
+</button>      </div>
     </div>
   );
 }
-
 
 function TrendingSection({ title, apiEndpoint }) {
   const [movies, setMovies] = React.useState([]);
@@ -295,7 +368,7 @@ function SearchForMoreMoviesButton() {
             className="search-more-movies-btn"
             onClick={() => (window.location.href = 'movies.html')}
           >
-            Search for More Movies
+            Search for more Movies, Series, Genres
           </button>
         </div>
       );
@@ -303,15 +376,15 @@ function SearchForMoreMoviesButton() {
 
 function ReasonsSection() {
   const reasons = [
-    { title: "Stories tailored to your taste", emoji: "✨" },
-    { title: "Cancel or switch plans anytime", emoji: "🤝" },
-    { title: "A place just for kids", emoji: "❤️" },
-    { title: "For your phone, tablet, laptop and TV", emoji: "💻" },
-  ];
+  { title: "Discover trending movies instantly", emoji: "🌟" },
+  { title: "Find movies across all genres", emoji: "🎥" },
+  { title: "No sign-ups, just seamless search", emoji: "🔍" },
+  { title: "Works on any device, anytime", emoji: "📱" },
+];
 
   return (
     <div className="reasons-section">
-      <h2>More Reasons to Join</h2>
+      <h2>Your Movie Search Made Easy</h2>
       <div className="reasons-container">
         {reasons.map((reason, index) => (
           <div className="reason-card" key={index}>
@@ -326,10 +399,10 @@ function ReasonsSection() {
 
 function FAQSection() {
   const faqs = [
-    { question: "What is Movie-Search-Hub?", answer: "Netflix is a streaming service..." },
-    { question: "How much does Movie-Search-Hub cost?", answer: "Plans range from $6.99..." },
-    { question: "Where can I watch?", answer: "You can watch on any device..." },
-    { question: "How do I cancel?", answer: "You can cancel your subscription anytime..." },
+    { question: "What is Movie-Search-Hub?", answer: "Movie-Search-Hub is a platform that helps you find movies of your interest, explore trending films, and discover hidden gems, all in one convenient place!" },
+    { question: "How much does Movie-Search-Hub cost?", answer: "Movie-Search-Hub is completely free to use. There are no hidden costs or subscription plans — just start exploring!" },
+    { question: "Where can I use Movie-Search-Hub?", answer: "You can use Movie-Search-Hub on any device with a web browser, including phones, tablets, and desktops!" },
+    { question: "Do I need to sign up or create an account?", answer: "No sign-up is required! Movie-Search-Hub is accessible to everyone without the need for personal accounts or logins!" },
   ];
 
   const [expandedIndex, setExpandedIndex] = React.useState(null);
@@ -360,7 +433,7 @@ function FAQSection() {
   );
 }
 
-    function FooterSection() {
+function FooterSection() {
   const links = [
     ["FAQ", "Investor Relations", "Buy Gift Cards", "Cookie Preferences", "Legal Notices"],
     ["Help Center", "Jobs", "Ways to Watch", "Corporate Information", "Only on Netflix"],
@@ -377,10 +450,10 @@ function FAQSection() {
         >
           Get Started
         </button>
-        <p>Create your account and enjoy the Movies</p>
+        <p>Checkout the Sign-In page for future enhancement!</p>
       </div>
       <p className="footer-question">
-        Questions? Call <a href="tel:1-844-505-2993">1-844-505-2993</a>
+        Questions? Email me at <a href="tel:1-844-505-2993">a.kanan@wustl.edu</a>
       </p>
       <div className="footer-links">
         {links.map((column, index) => (
@@ -403,16 +476,6 @@ function FAQSection() {
     </footer>
   );
 }
-
-
-
-    function Footer() {
-      return (
-        <footer className="bg-dark text-center text-white py-3 mt-4">
-          <p>&copy; 2024 A-Movie. All rights reserved.</p>
-        </footer>
-      );
-    }
 
     const container = document.querySelector('#root');
     const root = ReactDOM.createRoot(container);
