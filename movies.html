@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movies Search</title>
+  <title>filmX - Movies Search</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -26,103 +26,218 @@
           <div className="container mt-4">
             <SearchMovies />
           </div>
+          <FooterSection />
         </div>
       );
     }
 
-    function Header() {
+  function Header() {
+    return (
+      <nav className="navbar netflix-navbar">
+        <div className="container-fluid d-flex justify-content-between align-items-center">
+          {/* Brand Section */}
+          <a className="navbar-brand d-flex align-items-center" href="#">
+            <span className="ms-2 movie-brand-text">filmX</span>
+          </a>
+        </div>
+      </nav>
+    );
+  }
+
+  function SearchMovies() {
+  const [movies, setMovies] = React.useState([]);
+  const [query, setQuery] = React.useState('');
+
+  React.useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  const fetchMovies = async (searchQuery = '') => {
+    try {
+      const endpoint = searchQuery
+        ? `${BASE_URL}/search/movie`
+        : `${BASE_URL}/movie/popular`;
+      const response = await axios.get(endpoint, {
+        params: { api_key: API_KEY, query: searchQuery },
+      });
+      setMovies(response.data.results);
+    } catch (error) {
+      console.error('Error fetching movies:', error);
+    }
+  };
+
+  const handleSearch = () => {
+    fetchMovies(query);
+  };
+
+  return (
+    <div>
+      <div className="search-bar mb-4 d-flex">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search for a movies, genres, tv shows"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button
+          className="btn btn-danger"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+      </div>
+      <MovieGrid movies={movies} />
+    </div>
+  );
+}
+
+  function MovieGrid({ movies }) {
+    const [selectedMovie, setSelectedMovie] = React.useState(null);
+
+    const handleMovieClick = (movie) => {
+      setSelectedMovie(movie); // Set the clicked movie to open in the modal
+    };
+
+    const handleCloseModal = () => {
+      setSelectedMovie(null); // Close the modal
+    };
+
+    if (!movies || movies.length === 0) {
       return (
-        <nav className="navbar navbar-dark bg-dark">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="index.html">Movies App</a>
-          </div>
-        </nav>
+        <p className="text-center">
+          No movies found. Try searching for something else!
+        </p>
       );
     }
 
-    function Footer() {
-      return (
-        <footer className="bg-dark text-white text-center py-3">
-          <p>&copy; 2024 Movies Search. All rights reserved.</p>
-        </footer>
-      );
-    }
-
-    function SearchMovies() {
-      const [movies, setMovies] = React.useState([]);
-      const [query, setQuery] = React.useState('');
-
-      React.useEffect(() => {
-        fetchMovies();
-      }, []);
-
-      const fetchMovies = async (searchQuery = '') => {
-        try {
-          const endpoint = searchQuery
-            ? `${BASE_URL}/search/movie`
-            : `${BASE_URL}/movie/popular`;
-          const response = await axios.get(endpoint, {
-            params: { api_key: API_KEY, query: searchQuery },
-          });
-          setMovies(response.data.results);
-        } catch (error) {
-          console.error('Error fetching movies:', error);
-        }
-      };
-
-      const handleSearch = () => {
-        fetchMovies(query);
-      };
-
-      return (
-        <div>
-          <div className="search-bar mb-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search for a movie..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button
-              className="btn btn-danger mt-2"
-              onClick={handleSearch}
+    return (
+      <div className="movie-grid-container-wrapper">
+        <div className="movie-grid-container">
+          {movies.map((movie) => (
+            <div
+              key={movie.id}
+              className="movie-grid-card"
+              onClick={() => handleMovieClick(movie)} // Trigger modal on click
             >
-              Search
-            </button>
-          </div>
-          <MovieGrid movies={movies} />
+              <img
+                src={
+                  movie.poster_path
+                    ? `${IMAGE_URL}${movie.poster_path}`
+                    : "https://via.placeholder.com/500x750"
+                }
+                alt={movie.title}
+                className="movie-grid-poster"
+              />
+            </div>
+          ))}
         </div>
-      );
-    }
 
-    function MovieGrid({ movies }) {
-      if (!movies || movies.length === 0) {
-        return <p className="text-center">No movies found. Try searching for something else!</p>;
-      }
+        {/* Render MovieModal if a movie is selected */}
+        {selectedMovie && (
+          <MovieModal movie={selectedMovie} onClose={handleCloseModal} />
+        )}
+      </div>
+    );
+  }
 
-      return (
-        <div>
-          <h3 className="mb-4">Movies</h3>
-          <div className="row">
-            {movies.map((movie) => (
-              <div className="col-md-3 mb-4" key={movie.id}>
-                <div className="card">
-                  <img
-                    src={movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : 'https://via.placeholder.com/500x750'}
-                    className="card-img-top"
-                    alt={movie.title}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{movie.title}</h5>
-                  </div>
-                </div>
-              </div>
+  function MovieModal({ movie, onClose }) {
+  // Example mapping of genre IDs to genre names
+  const genreMapping = {
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western",
+  };
+
+  // Format the release date to extract the year
+  const releaseYear = new Date(movie.release_date).getFullYear();
+
+  // Get the genres as an array of names
+  const genres = movie.genre_ids.map((id) => genreMapping[id]).filter(Boolean);
+
+  // Placeholder for content rating and media type
+  const contentRating = movie.adult ? "R" : "PG-13"; // Example logic
+  const mediaType = movie.media_type === "tv" ? "Show" : "Movie"; // Example logic
+
+  // Combine all metadata into a single array
+  const metadata = [
+    releaseYear,
+    contentRating,
+    mediaType,
+    ...genres, // Spread genres into the array
+  ];
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button className="close-btn" onClick={onClose}>
+          &times;
+        </button>
+        <img
+          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          alt={movie.title}
+          className="modal-image"
+        />
+        <div className="modal-details">
+          <h1>{movie.title}</h1>
+          <p className="movie-meta">{metadata.join(" • ")}</p>
+          <p className="movie-description">{movie.overview}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+  function FooterSection() {
+  const links = [
+    ["FAQ", "Investor Relations", "Buy Gift Cards", "Cookie Preferences", "Legal Notices"],
+    ["Help Center", "Jobs", "Ways to Watch", "Corporate Information", "Only on Netflix"],
+    ["Account", "Netflix Shop", "Terms of Use", "Contact Us", "Do Not Sell or Share My Personal Information"],
+    ["Media Center", "Redeem Gift Cards", "Privacy", "Speed Test", "Ad Choices"],
+  ];
+
+  return (
+    <footer className="footer-section">
+      <p className="footer-question">
+        Questions? Email me at <a href="tel:1-844-505-2993">a.kanan@wustl.edu</a>
+      </p>
+      <div className="footer-links">
+        {links.map((column, index) => (
+          <ul key={index} className="footer-column">
+            {column.map((link, i) => (
+              <li key={i}>
+                <a href="#" className="footer-link">
+                  {link}
+                </a>
+              </li>
             ))}
-          </div>
-        </div>
-      );
-    }
+          </ul>
+        ))}
+      </div>
+      <div className="footer-language">
+        <button className="language-button">
+          <i className="bi bi-globe"></i> English
+        </button>
+      </div>
+    </footer>
+  );
+}
 
     const container = document.querySelector('#root');
     const root = ReactDOM.createRoot(container);

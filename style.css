@@ -1155,3 +1155,53 @@ body {
 
 /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
+/* movies.html styling */
+
+.movie-grid-container-wrapper {
+  position: relative;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.movie-grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+.movie-grid-card {
+  position: relative;
+  flex: 0 0 calc(25% - 1rem); /* Four cards per row */
+  max-width: calc(25% - 1rem);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #222;
+  cursor: pointer;
+}
+
+.movie-grid-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+}
+
+.movie-grid-poster {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.movie-grid-info {
+  text-align: center;
+  padding: 0.5rem;
+  color: #fff;
+}
+
+.movie-title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+
