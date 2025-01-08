@@ -1,4 +1,6 @@
-# filmX 🎥
+<div align="center">
+    <h1 id="Header">filmX 🎥</h1>
+</div>
 
 **Your gateway to exploring movies, genres, and trending films!**
 ```
